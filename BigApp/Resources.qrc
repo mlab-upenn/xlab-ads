@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/xml">
+        <file>macys.xml</file>
+        <file>RachaelRay.xml</file>
+    </qresource>
+</RCC>
