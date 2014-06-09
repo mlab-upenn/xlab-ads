@@ -61,7 +61,7 @@ static bool subview=true;
 	
 	CFReadStreamRef readStream;
 	CFWriteStreamRef writeStream;
-	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"158.130.104.167", 1234, &readStream, &writeStream);
+	CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"127.0.0.1", 1234, &readStream, &writeStream);
 	
 	inputStream = (__bridge NSInputStream *)readStream;
 	outputStream = (__bridge NSOutputStream *)writeStream;
@@ -165,7 +165,7 @@ static bool subview=true;
     NSInteger frame_num=[[imageArray objectAtIndex:index] intValue];
     NSString *frameStr=[NSString stringWithFormat:@"%d",(int)frame_num];
     frameStr=[frameStr stringByAppendingString:@".json"];
-    NSString *searchURL=[@"http://158.130.12.47:3000/uploads/fullsize/" stringByAppendingString:frameStr];
+    NSString *searchURL=[@"http://158.130.12.34:3000/uploads/fullsize/" stringByAppendingString:frameStr];
     NSLog(@"url string: %@",searchURL);
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:searchURL]];
     NSDictionary *json=[NSJSONSerialization JSONObjectWithData:imageData options:kNilOptions error:nil];
@@ -186,7 +186,7 @@ static bool subview=true;
 {
     NSString *frameStr=[NSString stringWithFormat:@"%d",(int)frameNumber];
     frameStr=[frameStr stringByAppendingString:@".jpg"];
-    NSString *searchURL=[@"http://158.130.12.47:3000/uploads/fullsize/" stringByAppendingString:frameStr];
+    NSString *searchURL=[@"http://158.130.12.34:3000/uploads/fullsize/" stringByAppendingString:frameStr];
     NSLog(@"url string: %@",searchURL);
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:searchURL]];
     if(imageData)

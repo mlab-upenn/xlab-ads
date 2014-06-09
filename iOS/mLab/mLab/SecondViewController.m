@@ -25,7 +25,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSString *myUrl = @"http://158.130.12.47:3000/login";
+    NSString *myUrl = @"http://158.130.12.34:3000/login";
     NSURLRequest *myRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:myUrl]];
     [myWebview loadRequest:myRequest];
 }

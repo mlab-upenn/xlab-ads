@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSString *myUrl = @"http://158.130.12.47:3000/reg";
+    NSString *myUrl = @"http://158.130.12.34:3000/reg";
     NSURLRequest *myRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:myUrl]];
     [myWebView loadRequest:myRequest];
     
