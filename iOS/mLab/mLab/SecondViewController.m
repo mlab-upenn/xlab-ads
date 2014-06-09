@@ -21,6 +21,7 @@
     
 }
 
+//set url of nodejs server.
 - (void)viewDidLoad
 {
     [super viewDidLoad];

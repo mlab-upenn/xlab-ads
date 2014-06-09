@@ -24,6 +24,7 @@
     return self;
 }
 
+//set url of register server
 - (void)viewDidLoad
 {
     [super viewDidLoad];

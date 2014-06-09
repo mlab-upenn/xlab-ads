@@ -19,17 +19,12 @@ class IphoneChat(Protocol):
 			content = a[1]		
 			msg = ""
 			if command == "iam":
-#				self.name = content
-#				msg = self.name + " has joined"
-				msg = "test1"
+				msg = "hello world"
 			elif command == "video":
-				msg = "video:"+content
-				
+				msg = "video:"+content				
 			elif command == "msg":
-#				msg = self.name + ": " + content
-			        msg = "image:"+content
-			print msg
-						
+			    msg = "image:"+content
+			print msg				
 			for c in self.factory.clients:
 				c.message(msg)
 				

@@ -24,6 +24,7 @@ static bool subview=true;
 @synthesize titleImage;
 @synthesize imageOfTitle;
 
+//go to menu view and close socket communication.
 - (IBAction)showMenu
 {
     [inputStream close];
@@ -31,6 +32,7 @@ static bool subview=true;
     [self.sideMenuViewController presentMenuViewController];
 }
 
+//view initialize with socket communication and image objects
 - (void) viewDidLoad
 {
     [self loadView];
@@ -41,13 +43,14 @@ static bool subview=true;
     self.imageArray = [NSMutableArray array];
     self.images=self.image_obj;
     [self initNetworkCommunication];
+    //iOS part could send messages to the server
     //[self joinChat];
     //[self sendMessage];
 }
 
+
 - (void)setSubview
 {
-    NSLog(@"----CLICK------");
     subview=true;
     [self loadView];
     [titleImage setImage:imageOfTitle];
@@ -71,6 +74,7 @@ static bool subview=true;
 	
 }
 
+//send messages to server
 - (void) joinChat{
     NSString *response  = [NSString stringWithFormat:@"iam:ipad"];
 	NSData *data = [[NSData alloc] initWithData:[response dataUsingEncoding:NSASCIIStringEncoding]];
@@ -83,39 +87,29 @@ static bool subview=true;
 	[outputStream write:[data bytes] maxLength:[data length]];
 }
 
+//event handler to handle events
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
-    
-	//NSLog(@"stream event %u", streamEvent);
-	
 	switch (streamEvent) {
-			
+		//open stream
 		case NSStreamEventOpenCompleted:
 			NSLog(@"Stream opened");
 			break;
+        //get message from server
 		case NSStreamEventHasBytesAvailable:
-            
 			if (theStream == inputStream) {
-				
 				uint8_t buffer[1024];
 				NSInteger len;
-				
 				while ([inputStream hasBytesAvailable]) {
 					len = [inputStream read:buffer maxLength:sizeof(buffer)];
 					if (len > 0) {
-						
 						NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
-						
 						if (output != nil) {
-                            
-							NSLog(@"server said: %@", output);
                             NSArray *item = [output componentsSeparatedByString:@":"];
                             if([[item objectAtIndex:0] isEqualToString:@"video"]){
                                 [self setTitle:[item objectAtIndex:1]];
-                                
                             }
                             if([[item objectAtIndex:0] isEqualToString:@"image"]){
                                 NSInteger output_int=[[item objectAtIndex:1] integerValue];
-                                NSLog(@"%ld",(long)output_int);
                                 frameNumber=output_int;
                                 [imageArray addObject:[NSNumber numberWithInteger:frameNumber]];
                                 [self showPics:output_int];
@@ -125,26 +119,23 @@ static bool subview=true;
 				}
 			}
 			break;
-            
-			
+        //can't get connect to serever
 		case NSStreamEventErrorOccurred:
-			
 			NSLog(@"Can not connect to the host!");
 			break;
-			
+        //end socket communication
 		case NSStreamEventEndEncountered:
             NSLog(@"Finished!!!!");
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            //[theStream release];
             theStream = nil;
-			
 			break;
 		default:
 			NSLog(@"Unknown event");
 	}
 }
 
+//set title of the whole video stream
 -(void) setTitle:(NSString *) imageString
 {
     NSLog(@"-----%@---------", imageString);
@@ -166,6 +157,7 @@ static bool subview=true;
     
 }
 
+//click the images and go to different urls.
 -(void) imgTouchUp:(id)sender {
     UITapGestureRecognizer *gesture = (UITapGestureRecognizer *) sender;
     int index=(int)gesture.view.tag;
@@ -189,6 +181,7 @@ static bool subview=true;
     [self.delegate imageSelected:imageView];
 }
 
+//show pics according to different frame numbers
 - (void) showPics:(NSInteger) framenumber
 {
     NSString *frameStr=[NSString stringWithFormat:@"%d",(int)frameNumber];
